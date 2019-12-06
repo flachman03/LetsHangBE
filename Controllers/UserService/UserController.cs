@@ -47,5 +47,12 @@ namespace LetsHang.Controller
         _context.SaveChanges();
       }
     }
+
+    [HttpGet]
+    public ActionResult<List<User>> GetAllUsers()
+    {
+      return _context.Users.ToList();
+    }
+
   }
 }
