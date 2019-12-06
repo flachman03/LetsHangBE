@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System;
 using LetsHang.Models;
+using Templates;
 
 namespace LetsHang.Controller
 {
@@ -54,5 +55,31 @@ namespace LetsHang.Controller
       return _context.Users.ToList();
     }
 
+        [HttpPost]
+    public ActionResult<User> AddUser([FromBody] AddUserTemplates user)
+    {
+      if (!ModelState.IsValid)
+        return BadRequest("Invalid Data");
+
+      if(user.Password != user.ConfirmPassword)
+        return BadRequest("Passwords Dont Match");
+
+      var key = new byte[32];
+      using (var generator = RandomNumberGenerator.Create())
+        generator.GetBytes(key);
+      string apiKey = Convert.ToBase64String(key);
+
+      var item = new User {
+        Name = user.Name,
+        Email = user.Email,
+        PhoneNumber = user.PhoneNumber,
+        Password = user.Password,
+        ApiKey = apiKey
+      };
+
+      _context.Add(item);
+      _context.SaveChanges();
+      return Ok();
+    }
   }
 }
