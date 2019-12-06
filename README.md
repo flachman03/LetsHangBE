@@ -6,7 +6,7 @@ Welcome to the Lets Hang API! This is an API that serves as the backend the _Let
 Table of Contents
 =================
 
-####[User Endpoints](#user-endpoints)
+#### [User Endpoints](#user-endpoints)
   * [Get All Users](#get-all-users)
 
 User Endpoints

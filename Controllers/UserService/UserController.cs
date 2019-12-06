@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System;
 using LetsHang.Models;
+using Templates;
 
 namespace LetsHang.Controller
 {
@@ -48,11 +49,56 @@ namespace LetsHang.Controller
       }
     }
 
+    //Get all users from the UserDb
     [HttpGet]
     public ActionResult<List<User>> GetAllUsers()
     {
       return _context.Users.ToList();
     }
 
+    //Add a new user to the UserDb
+    [HttpPost]
+    public ActionResult<User> AddUser([FromBody] AddUserTemplates user)
+    {
+      if (!ModelState.IsValid)
+        return BadRequest("Invalid Data");
+
+      if(user.Password != user.ConfirmPassword)
+        return BadRequest("Passwords Dont Match");
+
+      var key = new byte[32];
+      using (var generator = RandomNumberGenerator.Create())
+        generator.GetBytes(key);
+      string apiKey = Convert.ToBase64String(key);
+
+      var item = new User {
+        Name = user.Name,
+        Email = user.Email,
+        PhoneNumber = user.PhoneNumber,
+        Password = user.Password,
+        ApiKey = apiKey
+      };
+
+      _context.Add(item);
+      _context.SaveChanges();
+      return Ok();
+    }
+
+    //Delete a User by their ApiKey
+    [HttpDelete]
+    public ActionResult DeleteUser([FromQuery] string ApiKey)
+    {
+      var user = _context.Users
+                          .Where( u => u.ApiKey == ApiKey)
+                          .FirstOrDefault();
+
+      if(user == null)
+        return NotFound();
+
+      _context.Remove(user);
+      _context.SaveChanges();
+
+      return Ok();
+    }
   }
 }
