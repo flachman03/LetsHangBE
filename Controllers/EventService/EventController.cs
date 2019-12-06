@@ -67,5 +67,27 @@ namespace LetsHang.Controller
 
       return userEvent;
     }
+
+    [HttpPost]
+    public ActionResult<Event> AddEvent([FromBody] AddEventTemplates customEvent)
+    {
+      if (!ModelState.IsValid)
+        return BadRequest("Invalid data.");
+
+      var newEvent = new Event
+      {
+        Title = customEvent.Title,
+        Description = customEvent.Description,
+        EventTime = customEvent.EventTime,
+        EventLocation = customEvent.EventLocation,
+        Creator = customEvent.UserName,
+        CreatedAt = DateTime.Now
+      };
+
+      _context.Events.Add(newEvent);
+      _context.SaveChanges();
+
+      return newEvent;
+    }
   }
 }
