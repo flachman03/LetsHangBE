@@ -49,13 +49,15 @@ namespace LetsHang.Controller
       }
     }
 
+    //Get all users from the UserDb
     [HttpGet]
     public ActionResult<List<User>> GetAllUsers()
     {
       return _context.Users.ToList();
     }
 
-        [HttpPost]
+    //Add a new user to the UserDb
+    [HttpPost]
     public ActionResult<User> AddUser([FromBody] AddUserTemplates user)
     {
       if (!ModelState.IsValid)
@@ -79,6 +81,23 @@ namespace LetsHang.Controller
 
       _context.Add(item);
       _context.SaveChanges();
+      return Ok();
+    }
+
+    //Delete a User by their ApiKey
+    [HttpDelete]
+    public ActionResult DeleteUser([FromQuery] string ApiKey)
+    {
+      var user = _context.Users
+                          .Where( u => u.ApiKey == ApiKey)
+                          .FirstOrDefault();
+
+      if(user == null)
+        return NotFound();
+
+      _context.Remove(user);
+      _context.SaveChanges();
+
       return Ok();
     }
   }
