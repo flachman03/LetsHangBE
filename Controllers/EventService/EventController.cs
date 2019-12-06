@@ -1,6 +1,7 @@
 using LetsHang.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LetsHang.Controller
@@ -38,6 +39,12 @@ namespace LetsHang.Controller
 
         _context.SaveChanges();
       }
+    }
+
+    [HttpGet]
+    public ActionResult<List<Event>> GetEvents()
+    {
+      return _context.Events.ToList();
     }
   }
 }
