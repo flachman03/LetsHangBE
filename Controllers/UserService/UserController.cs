@@ -73,6 +73,7 @@ namespace LetsHang.Controller
 
       var item = new User {
         Name = user.Name,
+        UserName = user.UserName,
         Email = user.Email,
         PhoneNumber = user.PhoneNumber,
         Password = user.Password,
