@@ -4,6 +4,8 @@ namespace LetsHang.Models
 {
   public class Friend
   {
+    public long Id { get; set; }
+
     [Required]
     public long UserId { get; set; }
 
