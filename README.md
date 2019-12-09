@@ -19,3 +19,35 @@ Get All Users
 ```
 GET https://locolhost/api/v1/user
 ```
+
+Add User
+--------
+
+**Request**
+```
+Post https://localhost/api/v1/user
+```
+
+**Request Body**
+```
+{
+  Name: <string>"Firstname Lastname",
+  UserName: <string>"username",
+  Email: <string>"email address",
+  PhoneNumber: <string>"9999999999",
+  Password: <string>"password",
+  ConfirmPassword: <string>"password"
+}
+```
+
+**Response Body**
+```
+{
+  Name: <string>"Firstname Lastname",
+  UserName: <string>"username",
+  Email: <string>"email address",
+  PhoneNumber: <string>"9999999999",
+  Password: <string>"password",
+  ApiKey: <string>"C93reRTUJHsCuQSHRXL3GxqOJyDmQpCgps102ciuabc"
+}
+```
