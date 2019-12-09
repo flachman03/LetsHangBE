@@ -46,6 +46,28 @@ namespace LetsHang.Controller
           ApiKey = "C93reRTUJHsCuQSHRXL3GxqOJyDmQpCgps102ciuabc"
         });
         _context.SaveChanges();
+
+      }
+      if (_context.Friends.Count() == 0)
+      {
+        _context.Friends.Add( new Friend
+        {
+          UserId = 9,
+          FriendId = 10,
+          RequestStatus = (RequestStatus)2
+        });
+        _context.Friends.Add( new Friend
+        {
+          UserId = 9,
+          FriendId = 11,
+          RequestStatus = (RequestStatus)1
+        });
+        _context.Friends.Add( new Friend{
+          UserId = 9,
+          FriendId = 12,
+          RequestStatus = (RequestStatus)1
+        });
+        _context.SaveChanges();
       }
     }
 
@@ -54,6 +76,12 @@ namespace LetsHang.Controller
     public ActionResult<List<User>> GetAllUsers()
     {
       return _context.Users.ToList();
+    }
+
+    [HttpGet("friends/all")]
+    public ActionResult<List<Friend>> GetAllFriends()
+    {
+      return _context.Friends.ToList();
     }
 
     [HttpGet("friends")]
