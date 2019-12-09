@@ -18,7 +18,7 @@ namespace LetsHang.Controller
     {
       _context = context;
 
-      if(_context.Users.Count()  < 3)
+      if(_context.Users.Count() == 0)
       {
         _context.Users.Add( new User {
           UserName = "Flachman03",
@@ -159,6 +159,30 @@ namespace LetsHang.Controller
         return NotFound();
 
       _context.Remove(user);
+      _context.SaveChanges();
+
+      return Ok();
+    }
+
+    [HttpDelete("Friends/{UserId}/{UserName}")]
+    public ActionResult DeleteFriendship(long UserId, string UserName, [FromQuery] string ApiKey)
+    {
+      var friend = _context.Users
+                            .Where( u => u.UserName == UserName)
+                            .FirstOrDefault();
+
+      var user = _context.Users
+                          .Where( u => u.ApiKey == ApiKey)
+                          .FirstOrDefault();
+
+      if (user.UserId != UserId)
+        return NotFound();
+
+      var friendship = _context.Friends
+                                .Where( f => f.UserId == UserId && f.FriendId == friend.UserId)
+                                .FirstOrDefault();
+      
+      _context.Remove(friendship);
       _context.SaveChanges();
 
       return Ok();
