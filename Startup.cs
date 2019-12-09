@@ -33,6 +33,9 @@ namespace LetsHang
             services.AddDbContext<EventContext>(options =>
             options.UseNpgsql(Configuration.GetConnectionString("EventConnection")));
 
+            services.AddDbContext<AdminContext>(options =>
+            options.UseNpgsql(Configuration.GetConnectionString("AdminConnection")));
+
             services.AddControllers();
         }
 
