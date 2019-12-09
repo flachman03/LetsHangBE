@@ -18,7 +18,7 @@ namespace LetsHang.Controller
     {
       _context = context;
 
-      if(_context.Users.Count()  < 3)
+      if(_context.Users.Count() == 0)
       {
         _context.Users.Add( new User {
           UserName = "Flachman03",
@@ -46,6 +46,28 @@ namespace LetsHang.Controller
           ApiKey = "C93reRTUJHsCuQSHRXL3GxqOJyDmQpCgps102ciuabc"
         });
         _context.SaveChanges();
+
+      }
+      if (_context.Friends.Count() == 0)
+      {
+        _context.Friends.Add( new Friend
+        {
+          UserId = 9,
+          FriendId = 10,
+          RequestStatus = (RequestStatus)2
+        });
+        _context.Friends.Add( new Friend
+        {
+          UserId = 9,
+          FriendId = 11,
+          RequestStatus = (RequestStatus)1
+        });
+        _context.Friends.Add( new Friend{
+          UserId = 9,
+          FriendId = 12,
+          RequestStatus = (RequestStatus)1
+        });
+        _context.SaveChanges();
       }
     }
 
@@ -54,6 +76,12 @@ namespace LetsHang.Controller
     public ActionResult<List<User>> GetAllUsers()
     {
       return _context.Users.ToList();
+    }
+
+    [HttpGet("friends/all")]
+    public ActionResult<List<Friend>> GetAllFriends()
+    {
+      return _context.Friends.ToList();
     }
 
     [HttpGet("friends")]
@@ -131,6 +159,30 @@ namespace LetsHang.Controller
         return NotFound();
 
       _context.Remove(user);
+      _context.SaveChanges();
+
+      return Ok();
+    }
+
+    [HttpDelete("Friends/{UserId}/{UserName}")]
+    public ActionResult DeleteFriendship(long UserId, string UserName, [FromQuery] string ApiKey)
+    {
+      var friend = _context.Users
+                            .Where( u => u.UserName == UserName)
+                            .FirstOrDefault();
+
+      var user = _context.Users
+                          .Where( u => u.ApiKey == ApiKey)
+                          .FirstOrDefault();
+
+      if (user.UserId != UserId)
+        return NotFound();
+
+      var friendship = _context.Friends
+                                .Where( f => f.UserId == UserId && f.FriendId == friend.UserId)
+                                .FirstOrDefault();
+      
+      _context.Remove(friendship);
       _context.SaveChanges();
 
       return Ok();
