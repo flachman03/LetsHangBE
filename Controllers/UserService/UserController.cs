@@ -18,7 +18,7 @@ namespace LetsHang.Controller
     {
       _context = context;
 
-            if(_context.Users.Count()  < 3)
+      if(_context.Users.Count()  < 3)
       {
         _context.Users.Add( new User {
           UserName = "Flachman03",
@@ -54,6 +54,40 @@ namespace LetsHang.Controller
     public ActionResult<List<User>> GetAllUsers()
     {
       return _context.Users.ToList();
+    }
+
+    [HttpGet("friends")]
+    public ActionResult<List<FriendInfo>> GetUserFriends([FromQuery] string ApiKey)
+    {
+      var user = _context.Users
+                          .Where( u => u.ApiKey == ApiKey)
+                          .FirstOrDefault();
+
+      if (user == null)
+        return NotFound("User Not Found");
+
+      var friendIds = _context.Friends
+                                .Where( f => f.UserId == user.UserId)
+                                .ToList();
+
+      if (friendIds.Count() == 0)
+        return NotFound("No Friend data accociated with the user found");
+
+      var friends = friendIds.Select( f => {
+        return _context.Users.Find(f.FriendId);
+      }).ToList();
+
+      var friendsInfo = friends.Select( f => {
+        return new FriendInfo
+        {
+          UserName = f.UserName,
+          Name = f.Name,
+          Email = f.Email,
+          PhoneNumber = f.PhoneNumber,
+        };
+      }).ToList();
+
+      return friendsInfo;
     }
 
     //Add a new user to the UserDb
