@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Templates;
 
 namespace LetsHang.Models
 {

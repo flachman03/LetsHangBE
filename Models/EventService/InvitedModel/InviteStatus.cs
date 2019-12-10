@@ -1,4 +1,4 @@
-namespace LetsHang.Models
+namespace Templates
 {
   public enum InviteStatus
   {
