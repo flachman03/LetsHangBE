@@ -147,6 +147,34 @@ namespace LetsHang.Controller
       return Ok();
     }
 
+    [HttpPost("Friends/{UserName}")]
+    public ActionResult RequestFriendship(string Username, [FromQuery] string ApiKey)
+    {
+      var user = _context.Users
+                          .Where( u => u.ApiKey == ApiKey)
+                          .FirstOrDefault();
+
+      if (user == null)
+        return NotFound("User not found");
+
+      var friend = _context.Users
+                            .Where( u => u.UserName == Username)
+                            .FirstOrDefault();
+
+      if (friend == null)
+        return NotFound("Friend not found");
+
+      _context.Friends.Add( new Friend
+      {
+        UserId = user.UserId,
+        FriendId = friend.UserId,
+        RequestStatus = (RequestStatus)2
+      });
+      _context.SaveChanges();
+
+      return Ok();
+    }
+
     //Delete a User by their ApiKey
     [HttpDelete]
     public ActionResult DeleteUser([FromQuery] string ApiKey)
