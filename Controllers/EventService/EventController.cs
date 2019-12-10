@@ -69,8 +69,8 @@ namespace LetsHang.Controller
       return userEvent;
     }
 
-    [HttpPost]
-    public ActionResult<Event> AddEvent([FromBody] AddEventTemplates customEvent)
+    [HttpPost("{UserId}")]
+    public ActionResult<Event> AddEvent([FromBody] AddEventTemplates customEvent, long UserId)
     {
       if (!ModelState.IsValid)
         return BadRequest("Invalid data.");
@@ -86,6 +86,20 @@ namespace LetsHang.Controller
       };
 
       _context.Events.Add(newEvent);
+      _context.SaveChanges();
+
+      var eventId = _context.Events.Find(newEvent).EventId;
+
+      foreach ( long Id in customEvent.Invited)
+      {
+        _context.Invites.Add( new Invited
+        {
+          UserId = UserId,
+          FriendId = Id,
+          EventId = eventId
+        });
+      }
+
       _context.SaveChanges();
 
       return newEvent;
