@@ -24,6 +24,6 @@ namespace Templates
     public string UserName { get; set; }
 
     [Required]
-    public List<int> Invited { get; set; }
+    public List<long> Invited { get; set; }
   }
 }

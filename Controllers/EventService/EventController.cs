@@ -69,12 +69,13 @@ namespace LetsHang.Controller
       return userEvent;
     }
 
-    [HttpPost]
-    public ActionResult<Event> AddEvent([FromBody] AddEventTemplates customEvent)
+    [HttpPost("{UserId}")]
+    public ActionResult<EventAndInvited> AddEvent([FromBody] AddEventTemplates customEvent, long UserId)
     {
       if (!ModelState.IsValid)
         return BadRequest("Invalid data.");
 
+      //Create the new Event object
       var newEvent = new Event
       {
         Title = customEvent.Title,
@@ -88,7 +89,48 @@ namespace LetsHang.Controller
       _context.Events.Add(newEvent);
       _context.SaveChanges();
 
-      return newEvent;
+      //Find the newly created events Id from the EventDb
+      //Foreach of the friends invited, create a new invited object and add
+      // it to the Invited table in EventDb
+      var eventId = _context.Events.Find(newEvent).EventId;
+      foreach ( long Id in customEvent.Invited)
+      {
+        var invited = new Invited
+        {
+          UserId = UserId,
+          FriendId = Id,
+          EventId = eventId
+        };
+        _context.Invites.Add(invited);
+      }
+      _context.SaveChanges();
+
+      //Find each user by their id in the UserDb and create a 
+      // PartialUser object and add it to a list of partial users
+      List<PartialUser> allInvited = new List<PartialUser>();
+
+      foreach ( long Id in customEvent.Invited)
+      {
+        var user = _userContext.Users.Find(Id);
+
+        allInvited.Add( new PartialUser
+        {
+          UserId = user.UserId,
+          UserName = user.UserName,
+          Name = user.Name,
+          Email = user.Email,
+          PhoneNumber = user.PhoneNumber
+        });
+      }
+
+      //Create and EventAndInvited object to finish out what the user
+      // should get back when creating a new event
+      var eventAndInvited = new EventAndInvited
+      {
+        Event = newEvent,
+        Invited = allInvited
+      };
+      return eventAndInvited;
     }
   }
 }
