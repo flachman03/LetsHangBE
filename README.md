@@ -111,11 +111,24 @@ ApiKey=<user_api_key>
 ]
 ```
 
+Request Friendship
+------------------
+
+**Request**
+POST https://localhost:5001/api/v1/user/friends/{UserName}
+UserName = UserName of friend being requested
+
+**Query Params**
+ApiKey=<user_api_key>
+
+**Response Status**
+status: 200
+
 Delete Friendship
 -----------------
 
 **Request**
-DELETE https://localhost:5001/api/v1/friends/{UserId}/{UserName}
+DELETE https://localhost:5001/api/v1/user/friends/{UserId}/{UserName}
 UserId = UserId of user making request
 UserName = UserName of friend to be removed from users friends
 
