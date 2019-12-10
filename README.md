@@ -8,6 +8,7 @@ Table of Contents
 
 #### [User Endpoints](#user-endpoints)
   * [Get All Users](#get-all-users)
+  * [Add User](#add-user)
 
 User Endpoints
 ==============
@@ -20,12 +21,13 @@ Get All Users
 GET https://locolhost/api/v1/user
 ```
 
+
 Add User
 --------
 
 **Request**
 ```
-Post https://localhost/api/v1/user
+POST https://localhost/api/v1/user
 ```
 
 **Request Body**
@@ -51,3 +53,15 @@ Post https://localhost/api/v1/user
   ApiKey: <string>"C93reRTUJHsCuQSHRXL3GxqOJyDmQpCgps102ciuabc"
 }
 ```
+
+Delete User
+-----------
+
+**Request**
+DELETE https://localhost:5001/api/v1/user
+
+**Query Params**
+ApiKey=<user_api_key>
+
+**Response Status**
+status: 200
