@@ -53,5 +53,25 @@ namespace LetsHang.Controller
 
       return Ok();
     }
+
+    [HttpDelete("users/{Id}")]
+    public ActionResult AdminDeleteUser( long Id, [FromQuery] string Password)
+    {
+      var admin = _context.Admins
+                          .Where( a => a.Password == Password)
+                          .FirstOrDefault();
+
+      if (admin == null)
+        return NotFound();
+
+      var user = _userContext.Users
+                              .Where( u => u.UserId == Id)
+                              .FirstOrDefault();
+
+      _userContext.Users.Remove(user);
+      _userContext.SaveChanges();
+
+      return Ok();
+    }
   }
 }
