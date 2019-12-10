@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Templates;
 
 namespace LetsHang.Models
 {
@@ -14,5 +15,8 @@ namespace LetsHang.Models
 
     [Required]
     public long EventId { get; set; }
+
+    [Required]
+    public InviteStatus InviteStatus { get; set; }
   }
 }

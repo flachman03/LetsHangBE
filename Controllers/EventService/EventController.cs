@@ -67,7 +67,21 @@ namespace LetsHang.Controller
                                 .FirstOrDefault();
 
       var invited = _context.Invites
-                            .Where( i => i.EventId == userEvent.EventId)
+                            .Where( i => i.EventId == userEvent.EventId && i.InviteStatus == (InviteStatus)1)
+                            .ToList()
+                            .Select( i => _userContext.Users.Find(i.UserId))
+                            .Select( u => new PartialUser
+                            {
+                              UserId = u.UserId,
+                              UserName = u.UserName,
+                              Name = u.Name,
+                              Email = u.Email,
+                              PhoneNumber = u.PhoneNumber
+                            })
+                            .ToList();
+
+      var accepted = _context.Invites
+                            .Where( i => i.EventId == userEvent.EventId && i.InviteStatus == (InviteStatus)2)
                             .ToList()
                             .Select( i => _userContext.Users.Find(i.UserId))
                             .Select( u => new PartialUser
@@ -83,7 +97,8 @@ namespace LetsHang.Controller
       var eventAndInvited = new EventAndInvited
       {
         Event = userEvent,
-        Invited = invited
+        Invited = invited,
+        Accepted = accepted
       };
 
       return eventAndInvited;
@@ -153,6 +168,29 @@ namespace LetsHang.Controller
         Invited = allInvited
       };
       return eventAndInvited;
+    }
+
+    [HttpDelete]
+    public ActionResult DeleteEvent([FromQuery] string ApiKey)
+    {
+      var user = _userContext.Users
+                              .Where( u => u.ApiKey == ApiKey)
+                              .FirstOrDefault();
+
+      if (user == null)
+        return NotFound();
+
+      var userEvent = _context.Events
+                              .Where( e => e.Creator == user.UserName)
+                              .FirstOrDefault();
+
+      if (userEvent == null)
+        return NotFound();
+
+      _context.Events.Remove(userEvent);
+      _context.SaveChanges();
+
+      return Ok();
     }
   }
 }
