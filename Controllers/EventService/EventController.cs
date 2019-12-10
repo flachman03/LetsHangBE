@@ -53,7 +53,7 @@ namespace LetsHang.Controller
     }
 
     [HttpGet("current")]
-    public ActionResult<Event> GetEventByUserName(string username, [FromQuery] string ApiKey)
+    public ActionResult<EventAndInvited> GetEventByUserName([FromQuery] string ApiKey)
     {
       var user = _userContext.Users
                               .Where( u => u.ApiKey == ApiKey)
@@ -66,8 +66,30 @@ namespace LetsHang.Controller
                                 .Where( e => e.Creator == user.UserName)
                                 .FirstOrDefault();
 
-      return userEvent;
+      var invited = _context.Invites
+                            .Where( i => i.EventId == userEvent.EventId)
+                            .ToList()
+                            .Select( i => _userContext.Users.Find(i.UserId))
+                            .Select( u => new PartialUser
+                            {
+                              UserId = u.UserId,
+                              UserName = u.UserName,
+                              Name = u.Name,
+                              Email = u.Email,
+                              PhoneNumber = u.PhoneNumber
+                            })
+                            .ToList();
+
+      var eventAndInvited = new EventAndInvited
+      {
+        Event = userEvent,
+        Invited = invited
+      };
+
+      return eventAndInvited;
+      
     }
+
 
     [HttpPost("{UserId}")]
     public ActionResult<EventAndInvited> AddEvent([FromBody] AddEventTemplates customEvent, long UserId)
