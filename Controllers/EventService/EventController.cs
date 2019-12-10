@@ -169,5 +169,28 @@ namespace LetsHang.Controller
       };
       return eventAndInvited;
     }
+
+    [HttpDelete]
+    public ActionResult DeleteEvent([FromQuery] string ApiKey)
+    {
+      var user = _userContext.Users
+                              .Where( u => u.ApiKey == ApiKey)
+                              .FirstOrDefault();
+
+      if (user == null)
+        return NotFound();
+
+      var userEvent = _context.Events
+                              .Where( e => e.Creator == user.UserName)
+                              .FirstOrDefault();
+
+      if (userEvent == null)
+        return NotFound();
+
+      _context.Events.Remove(userEvent);
+      _context.SaveChanges();
+
+      return Ok();
+    }
   }
 }
