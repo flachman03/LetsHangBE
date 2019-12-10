@@ -8,6 +8,10 @@ Table of Contents
 
 #### [User Endpoints](#user-endpoints)
   * [Get All Users](#get-all-users)
+  * [Add User](#add-user)
+  * [Delete User](#delete-user)
+
+#### [Friend Endpoints](#friend-endpoints)
 
 User Endpoints
 ==============
@@ -20,12 +24,13 @@ Get All Users
 GET https://locolhost/api/v1/user
 ```
 
+
 Add User
 --------
 
 **Request**
 ```
-Post https://localhost/api/v1/user
+POST https://localhost/api/v1/user
 ```
 
 **Request Body**
@@ -51,3 +56,71 @@ Post https://localhost/api/v1/user
   ApiKey: <string>"C93reRTUJHsCuQSHRXL3GxqOJyDmQpCgps102ciuabc"
 }
 ```
+
+Delete User
+-----------
+
+**Request**
+DELETE https://localhost:5001/api/v1/user
+
+**Query Params**
+ApiKey=<user_api_key>
+
+**Response Status**
+status: 200
+
+Friend Endpoints
+================
+
+Get All Friends
+---------------
+
+**Request**
+GET https://localhost:5001/api/v1/user/friends/all
+
+**Response Body**
+```
+[
+  {
+    Id: <long>1,
+    UserId: <long>1,
+    FriendId: <long>2,
+    RequestStatus: <int>1
+  }
+]
+```
+
+Get User Friends
+----------------
+
+**Request**
+GET https://localhost:5001/api/v1/user/friends
+
+**Query Params**
+ApiKey=<user_api_key>
+
+**Response Body**
+```
+[
+  {
+    UserName: <string>"Flachman03",
+    Name: <string>"Ryan Flachman",
+    Email: <string>"user@email.com",
+    PhoneNumber: <string>"3033333333"
+  }
+]
+```
+
+Delete Friendship
+-----------------
+
+**Request**
+DELETE https://localhost:5001/api/v1/friends/{UserId}/{UserName}
+UserId = UserId of user making request
+UserName = UserName of friend to be removed from users friends
+
+**Query Params**
+ApiKey=<user_api_key>
+
+**Response Status**
+status: 200
