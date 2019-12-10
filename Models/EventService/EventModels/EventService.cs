@@ -10,5 +10,6 @@ namespace LetsHang.Models
     }
 
     public DbSet<Event> Events { get; set; }
+    public DbSet<Invited> Invites { get; set; }
   }
 }
