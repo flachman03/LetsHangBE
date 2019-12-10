@@ -52,19 +52,19 @@ namespace LetsHang.Controller
       {
         _context.Friends.Add( new Friend
         {
-          UserId = 9,
-          FriendId = 10,
+          UserId = 10,
+          FriendId = 11,
           RequestStatus = (RequestStatus)2
         });
         _context.Friends.Add( new Friend
         {
-          UserId = 9,
-          FriendId = 11,
+          UserId = 10,
+          FriendId = 12,
           RequestStatus = (RequestStatus)1
         });
         _context.Friends.Add( new Friend{
-          UserId = 9,
-          FriendId = 12,
+          UserId = 10,
+          FriendId = 13,
           RequestStatus = (RequestStatus)1
         });
         _context.SaveChanges();
