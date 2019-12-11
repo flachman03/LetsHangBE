@@ -106,6 +106,7 @@ namespace LetsHang.Controller
     }
 
 
+    //Create a new event
     [HttpPost("{UserId}")]
     public ActionResult<EventAndInvited> AddEvent([FromBody] AddEventTemplates customEvent, long UserId)
     {
@@ -168,6 +169,31 @@ namespace LetsHang.Controller
         Invited = allInvited
       };
       return eventAndInvited;
+    }
+
+    [HttpPost("accept/{EventId}")]
+    public ActionResult AcceptEventInvite([FromQuery] string ApiKey, long EventId)
+    {
+      var user = _userContext.Users
+                              .Where( u => u.ApiKey == ApiKey)
+                              .FirstOrDefault();
+
+      if (user == null)
+        return NotFound("User Not Found");
+
+      var invite = _context.Invites
+                            .Where( i => i.EventId == EventId && i.FriendId == user.UserId)
+                            .FirstOrDefault();
+
+      if( invite == null)
+        return NotFound("Invite not found for that event");
+
+      invite.InviteStatus = (InviteStatus)2;
+
+      _context.Invites.Update(invite);
+      _context.SaveChanges();
+
+      return Ok();
     }
 
     [HttpDelete]
