@@ -17,6 +17,12 @@ Table of Contents
   * [Get User Friends](#get-user-friends)
   * [Request Friendship](#request-friendship)
   * [Delete Friendship](#delete-friendship)
+
+#### [Event Endpoints](#event-endpoints)
+  * [Get All Events](#get-all-events)
+  * [Get User Event](#get-user-event)
+  * [Create New Event](#create-new-event)
+  * [Delete Event](#delete-event)
   
 
 User Endpoints
@@ -67,7 +73,7 @@ Login User
 ----------
 **Request**
 ```
-https://localhost:5001/api/v1/user/login
+POST https://localhost:5001/api/v1/user/login
 ```
 
 **Request Body**
@@ -193,4 +199,118 @@ ApiKey=<user_api_key>
 **Response Status**
 ```
 status: 200
+```
+
+Event Endpoints
+===============
+
+Get All Events
+--------------
+
+**Request**
+```
+GET https://localhost:5001/api/v1/event
+```
+
+**Response Body**
+```
+[
+  {
+    EventId: <long>EventId,
+    Title: <string>"Title",
+    Description: <string>"Description",
+    EventTime: <string>"Event Time",
+    EventLocation: <string>"Event Location",
+    Creator: <string>"Creator UserName",
+    CreatedAt: <DateTime>"DateTime event created"
+  }
+]
+```
+
+Get User Event
+--------------
+
+**Request**
+```
+POST https://localhost:5001/api/v1/event/current
+```
+
+**Query Params**
+```
+ApiKey=<User_Api_Key>
+```
+
+**Response Body**
+```
+{
+  Event: 
+  {
+    EventId: <long>EventId,
+    Title: <string>"Title",
+    Description: <string>"Description",
+    EventTime: <string>"Event Time",
+    EventLocation: <string>"Event Location",
+    Creator: <string>"Creator UserName",
+    CreatedAt: <DateTime>"DateTime event created"
+  },
+  Invited: 
+  [
+    {
+      UserId: <long>UserId,
+      UserName: <string>"UserName",
+      Name: <string>"UserName",
+      Email: <string>"Email",
+      PhoneNumber: <string>"Phone Number"
+    }
+  ]
+  Accepted:
+  [
+    {
+      UserId: <long>UserId,
+      UserName: <string>"UserName",
+      Name: <string>"UserName",
+      Email: <string>"Email",
+      PhoneNumber: <string>"Phone Number"
+    }
+  ]
+}
+```
+
+Create New Event
+----------------
+
+**Request**
+```
+POST https://localhost:5001/api/v1/event/{UserId}
+```
+
+**Request Body**
+```
+  {
+    UserId: <long>UserId,
+    Title: <string>"Title",
+    Description: <string>"Description",
+    EventTime: <string>"Event Time",
+    EventLocation: <string>"Event Location",
+    UserName: <string>"UserName",
+    Invited: <List<friendIds>>[1,2,3,4]
+  }
+```
+
+Delete Event
+------------
+
+**Request**
+```
+DELETE https://localhost:5001/api/v1/event
+```
+
+**Query Params**
+```
+ApiKey=<User_Api_Key>
+```
+
+**Response Status**
+```
+Status: 200 Ok
 ```

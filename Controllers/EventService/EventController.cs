@@ -196,6 +196,8 @@ namespace LetsHang.Controller
       return Ok();
     }
 
+
+    //Delete an Event from the EventDb
     [HttpDelete]
     public ActionResult DeleteEvent([FromQuery] string ApiKey)
     {
