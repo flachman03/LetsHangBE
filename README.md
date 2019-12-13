@@ -9,9 +9,15 @@ Table of Contents
 #### [User Endpoints](#user-endpoints)
   * [Get All Users](#get-all-users)
   * [Add User](#add-user)
+  * [Login User](#login-user)
   * [Delete User](#delete-user)
 
 #### [Friend Endpoints](#friend-endpoints)
+  * [Get All Friend](#get-all-friends)
+  * [Get User Friends](#get-user-friends)
+  * [Request Friendship](#request-friendship)
+  * [Delete Friendship](#delete-friendship)
+  
 
 User Endpoints
 ==============
