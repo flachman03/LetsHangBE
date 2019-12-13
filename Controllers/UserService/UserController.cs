@@ -87,10 +87,10 @@ namespace LetsHang.Controller
 
     //route for user Login with UserName and Password
     [HttpPost("login")]
-    public ActionResult<User> LoginUser([FromBody] string Credentials, [FromBody] string Password)
+    public ActionResult<User> LoginUser([FromBody] LoginUserInfo LoginUserInfo)
     {
       var user = _context.Users
-                         .Where( u => (u.UserName == Credentials || u.Email == Credentials) && u.Password == Password)
+                         .Where( u => (u.UserName == LoginUserInfo.Credentials || u.Email == LoginUserInfo.Credentials) && u.Password == LoginUserInfo.Password)
                          .FirstOrDefault();
 
       if (user == null)
