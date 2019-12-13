@@ -21,7 +21,7 @@ Get All Users
 
 **Request**
 ```
-GET https://locolhost/api/v1/user
+GET https://locolhost:5001/api/v1/user
 ```
 
 
@@ -30,7 +30,7 @@ Add User
 
 **Request**
 ```
-POST https://localhost/api/v1/user
+POST https://localhost:5001/api/v1/user
 ```
 
 **Request Body**
