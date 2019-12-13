@@ -78,10 +78,25 @@ namespace LetsHang.Controller
       return _context.Users.ToList();
     }
 
+    //Get all Friends from the friends table
     [HttpGet("friends/all")]
     public ActionResult<List<Friend>> GetAllFriends()
     {
       return _context.Friends.ToList();
+    }
+
+    //route for user Login with UserName and Password
+    [HttpPost("login")]
+    public ActionResult<User> LoginUser([FromBody] LoginUserInfo LoginUserInfo)
+    {
+      var user = _context.Users
+                         .Where( u => (u.UserName == LoginUserInfo.Credentials || u.Email == LoginUserInfo.Credentials) && u.Password == LoginUserInfo.Password)
+                         .FirstOrDefault();
+
+      if (user == null)
+        return NotFound();
+
+      return user;
     }
 
     [HttpGet("friends")]

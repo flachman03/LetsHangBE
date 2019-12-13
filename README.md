@@ -57,6 +57,34 @@ POST https://localhost/api/v1/user
 }
 ```
 
+Login User
+----------
+**Request**
+```
+https://localhost:5001/api/v1/user/login
+```
+
+**Request Body**
+```
+{
+  credentials: <string>"userName or email",
+  password: <string>"password"
+}
+```
+
+**Responst Body**
+```
+{
+  UserId: <long>Id,
+  UserName: <string>"UserName",
+  Name: <string>"Name",
+  Email: <string>"Email",
+  PhoneNumber: <string>"PhoneNumber",
+  Password: <string>"Password",
+  ApiKey: <string>"ApiKey"
+}
+```
+
 Delete User
 -----------
 
