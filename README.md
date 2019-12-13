@@ -194,3 +194,31 @@ ApiKey=<user_api_key>
 ```
 status: 200
 ```
+
+Event Endpoints
+===============
+
+Get All Events
+--------------
+
+**Request**
+```
+https://localhost:5001/api/v1/event
+```
+
+**Response Body**
+```
+[
+  {
+    EventId: <long>EventId,
+    Title: <string>"Title",
+    Description: <string>"Description",
+    EventTime: <string>"Event Time",
+    EventLocation: <string>"Event Location",
+    Creator: <string>"Creator UserName",
+    CreatedAt: <DateTime>"DateTime event created"
+  }
+]
+```
+
+
