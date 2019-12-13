@@ -144,7 +144,7 @@ namespace LetsHang.Controller
 
       _context.Add(item);
       _context.SaveChanges();
-      return Ok();
+      return item;
     }
 
     [HttpPost("Friends/{UserName}")]

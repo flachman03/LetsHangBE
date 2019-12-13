@@ -61,13 +61,19 @@ Delete User
 -----------
 
 **Request**
+```
 DELETE https://localhost:5001/api/v1/user
+```
 
 **Query Params**
+```
 ApiKey=<user_api_key>
+```
 
 **Response Status**
+```
 status: 200
+```
 
 Friend Endpoints
 ================
@@ -76,7 +82,9 @@ Get All Friends
 ---------------
 
 **Request**
+```
 GET https://localhost:5001/api/v1/user/friends/all
+```
 
 **Response Body**
 ```
@@ -94,10 +102,14 @@ Get User Friends
 ----------------
 
 **Request**
+```
 GET https://localhost:5001/api/v1/user/friends
+```
 
 **Query Params**
+```
 ApiKey=<user_api_key>
+```
 
 **Response Body**
 ```
@@ -115,25 +127,36 @@ Request Friendship
 ------------------
 
 **Request**
+```
 POST https://localhost:5001/api/v1/user/friends/{UserName}
 UserName = UserName of friend being requested
+```
 
 **Query Params**
+```
 ApiKey=<user_api_key>
+```
 
 **Response Status**
+```
 status: 200
+```
 
 Delete Friendship
 -----------------
 
 **Request**
+```
 DELETE https://localhost:5001/api/v1/user/friends/{UserId}/{UserName}
 UserId = UserId of user making request
 UserName = UserName of friend to be removed from users friends
-
+```
 **Query Params**
+```
 ApiKey=<user_api_key>
+```
 
 **Response Status**
+```
 status: 200
+```
