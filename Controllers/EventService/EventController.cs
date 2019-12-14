@@ -49,6 +49,35 @@ namespace LetsHang.Controller
           Creator = "Jacqui03",
           CreatedAt = DateTime.Now
         });
+        _context.SaveChanges();
+
+        _context.Invites.Add( new Invited
+        {
+          UserId = 16,
+          FriendId = 17,
+          EventId = 6,
+          InviteStatus = (InviteStatus)1
+        });
+        _context.Invites.Add( new Invited
+        {
+          UserId = 16,
+          FriendId = 18,
+          EventId = 9,
+          InviteStatus = (InviteStatus)1
+        });
+        _context.Invites.Add( new Invited
+        {
+          UserId = 16,
+          FriendId = 19,
+          EventId = 9,
+          InviteStatus = (InviteStatus)2
+        });
+        _context.Invites.Add( new Invited{
+          UserId = 16,
+          FriendId = 20,
+          EventId = 9,
+          InviteStatus = (InviteStatus)2
+        });
 
         _context.SaveChanges();
       }
@@ -282,6 +311,33 @@ namespace LetsHang.Controller
       _context.Invites.Update(invite);
       _context.SaveChanges();
 
+      return Ok();
+    }
+
+    //====================================
+    //====================================
+    [HttpPost("AddInvites")]
+    public ActionResult AddInvites([FromQuery] string ApiKey, [FromBody] List<long> Invited)
+    {
+      var user = _userContext.Users
+                              .Where( u => u.ApiKey == ApiKey)
+                              .FirstOrDefault();
+
+      var userEvent = _context.Events
+                                .Where( e => e.Creator == user.UserName)
+                                .FirstOrDefault();
+
+      foreach ( long invite in Invited)
+      {
+        _context.Invites.Add( new Invited
+        {
+          UserId = user.UserId,
+          FriendId = invite,
+          EventId = userEvent.EventId,
+          InviteStatus = (InviteStatus)1
+        });
+      }
+      
       return Ok();
     }
 
