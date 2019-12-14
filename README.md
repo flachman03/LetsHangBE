@@ -276,6 +276,53 @@ ApiKey=<User_Api_Key>
 }
 ```
 
+Get Events Invited To
+---------------------
+**Request**
+```
+GET https://localhost:5001/api/v1/event/user/allInvited
+```
+
+**Query Params**
+```
+ApiKey=<User_Api_Key>
+```
+
+**Response Body**
+```
+[
+  {
+    Event: {
+    EventId: <long>EventId,
+    Title: <string>"Title",
+    Description: <string>"Description",
+    EventTime: <string>"Event Time",
+    EventLocation: <string>"Event Location",
+    Creator: <string>"Creator UserName",
+    CreatedAt: <DateTime>"DateTime event created"
+    },
+    Invited: [
+      {
+      UserId: <long>UserId,
+      UserName: <string>"UserName",
+      Name: <string>"UserName",
+      Email: <string>"Email",
+      PhoneNumber: <string>"Phone Number"
+      }
+    ],
+    Accepted: [
+      {
+      UserId: <long>UserId,
+      UserName: <string>"UserName",
+      Name: <string>"UserName",
+      Email: <string>"Email",
+      PhoneNumber: <string>"Phone Number"
+      }
+    ]
+  }
+]
+```
+
 Create New Event
 ----------------
 

@@ -20,7 +20,7 @@ namespace LetsHang.Controller
       _userContext = userContext;
 
 
-      if (_context.Events.Count() < 2) 
+      if (_context.Events.Count() == 0) 
       {
         _context.Events.Add( new Event
         {
@@ -40,11 +40,22 @@ namespace LetsHang.Controller
           Creator = "Garrett03",
           CreatedAt = DateTime.Now
         });
+        _context.Events.Add( new Event
+        {
+          Title = "Watch christmas movies and get krunk",
+          Description = "Home Alone and Home Alone 2!",
+          EventTime = "Tonight",
+          EventLocation = "Hollywood",
+          Creator = "Jacqui03",
+          CreatedAt = DateTime.Now
+        });
 
         _context.SaveChanges();
       }
     }
 
+    //==========================================
+    //=========================================
     //Get all events from the EventDb
     [HttpGet]
     public ActionResult<List<Event>> GetEvents()
@@ -52,6 +63,9 @@ namespace LetsHang.Controller
       return _context.Events.ToList();
     }
 
+    //==========================================
+    //==========================================
+    //Get the users current event that they created
     [HttpGet("current")]
     public ActionResult<EventAndInvited> GetEventByUserName([FromQuery] string ApiKey)
     {
@@ -105,7 +119,79 @@ namespace LetsHang.Controller
       
     }
 
+    //====================================
+    //====================================
+    //Get all events a user has been invited to
+    [HttpGet("user/allInvited")]
+    public ActionResult<List<EventAndInvited>> AllUserEventsInvitedTo([FromQuery] string ApiKey)
+    {
+      var user = _userContext.Users
+                              .Where( u => u.ApiKey == ApiKey)
+                              .FirstOrDefault();
 
+      if (user == null)
+        return NotFound();
+
+      var invites = _context.Invites
+                            .Where( i => i.FriendId == user.UserId)
+                            .ToList();
+
+      var events = new List<Event>();
+      foreach( var invite in invites)
+      {
+        var newEvent = _context.Events.Find(invite.EventId);
+        events.Add(newEvent);
+      }
+
+      var allEventsAndInvited = new List<EventAndInvited>();
+      foreach( var newEvent in events )
+      {
+        var allInvited = _context.Invites
+                                  .Where( i => i.EventId == newEvent.EventId && i.InviteStatus == (InviteStatus)1)
+                                  .ToList()
+                                  .Select( i => {
+                                    var user = _userContext.Users.Find(i.FriendId);
+                                    return new PartialUser
+                                    {
+                                      UserId = user.UserId,
+                                      UserName = user.UserName,
+                                      Name = user.Name,
+                                      Email = user.Email,
+                                      PhoneNumber = user.PhoneNumber
+                                    };
+                                  })
+                                  .ToList();
+
+        var allAccepted = _context.Invites
+                                  .Where( i => i.EventId == newEvent.EventId && i.InviteStatus == (InviteStatus)2)
+                                  .ToList()
+                                  .Select( i => {
+                                    var user = _userContext.Users.Find(i.FriendId);
+                                    return new PartialUser
+                                    {
+                                      UserId = user.UserId,
+                                      UserName = user.UserName,
+                                      Name = user.Name,
+                                      Email = user.Email,
+                                      PhoneNumber = user.PhoneNumber
+                                    };
+                                  })
+                                  .ToList();
+
+        var eventAndInvited = new EventAndInvited 
+        {
+          Event = newEvent,
+          Invited = allInvited,
+          Accepted = allAccepted
+        };
+        allEventsAndInvited.Add(eventAndInvited);
+      }
+
+      return allEventsAndInvited;
+    }
+
+    //====================================
+    //====================================
     //Create a new event
     [HttpPost("{UserId}")]
     public ActionResult<EventAndInvited> AddEvent([FromBody] AddEventTemplates customEvent, long UserId)
@@ -171,6 +257,9 @@ namespace LetsHang.Controller
       return eventAndInvited;
     }
 
+    //==================================
+    //==================================
+    //Accept an invite to an event
     [HttpPost("accept/{EventId}")]
     public ActionResult AcceptEventInvite([FromQuery] string ApiKey, long EventId)
     {
@@ -196,7 +285,8 @@ namespace LetsHang.Controller
       return Ok();
     }
 
-
+    //====================================
+    //====================================
     //Delete an Event from the EventDb
     [HttpDelete]
     public ActionResult DeleteEvent([FromQuery] string ApiKey)
