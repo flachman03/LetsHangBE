@@ -45,6 +45,8 @@ namespace LetsHang.Controller
       }
     }
 
+    //==========================================
+    //=========================================
     //Get all events from the EventDb
     [HttpGet]
     public ActionResult<List<Event>> GetEvents()
@@ -52,6 +54,9 @@ namespace LetsHang.Controller
       return _context.Events.ToList();
     }
 
+    //==========================================
+    //==========================================
+    //Get the users current event that they created
     [HttpGet("current")]
     public ActionResult<EventAndInvited> GetEventByUserName([FromQuery] string ApiKey)
     {
@@ -105,7 +110,35 @@ namespace LetsHang.Controller
       
     }
 
+    //====================================
+    //====================================
+    //Get all events a user has been invited to
+    [HttpGet("user/allInvited")]
+    public ActionResult<List<Event>> AllUserEventsInvitedTo([FromQuery] string ApiKey)
+    {
+      var user = _userContext.Users
+                              .Where( u => u.ApiKey == ApiKey)
+                              .FirstOrDefault();
 
+      if (user == null)
+        return NotFound();
+
+      var invites = _context.Invites
+                            .Where( i => i.FriendId == user.UserId)
+                            .ToList();
+
+      var events = new List<Event>();
+      foreach( var invite in invites)
+      {
+        var newEvent = _context.Events.Find(invite.EventId);
+        events.Add(newEvent);
+      }
+
+      return events;
+    }
+
+    //====================================
+    //====================================
     //Create a new event
     [HttpPost("{UserId}")]
     public ActionResult<EventAndInvited> AddEvent([FromBody] AddEventTemplates customEvent, long UserId)
@@ -171,6 +204,9 @@ namespace LetsHang.Controller
       return eventAndInvited;
     }
 
+    //==================================
+    //==================================
+    //Accept an invite to an event
     [HttpPost("accept/{EventId}")]
     public ActionResult AcceptEventInvite([FromQuery] string ApiKey, long EventId)
     {
@@ -196,7 +232,8 @@ namespace LetsHang.Controller
       return Ok();
     }
 
-
+    //====================================
+    //====================================
     //Delete an Event from the EventDb
     [HttpDelete]
     public ActionResult DeleteEvent([FromQuery] string ApiKey)
