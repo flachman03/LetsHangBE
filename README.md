@@ -292,6 +292,7 @@ ApiKey=<User_Api_Key>
 ```
 [
   {
+    Event: {
     EventId: <long>EventId,
     Title: <string>"Title",
     Description: <string>"Description",
@@ -299,6 +300,25 @@ ApiKey=<User_Api_Key>
     EventLocation: <string>"Event Location",
     Creator: <string>"Creator UserName",
     CreatedAt: <DateTime>"DateTime event created"
+    },
+    Invited: [
+      {
+      UserId: <long>UserId,
+      UserName: <string>"UserName",
+      Name: <string>"UserName",
+      Email: <string>"Email",
+      PhoneNumber: <string>"Phone Number"
+      }
+    ],
+    Accepted: [
+      {
+      UserId: <long>UserId,
+      UserName: <string>"UserName",
+      Name: <string>"UserName",
+      Email: <string>"Email",
+      PhoneNumber: <string>"Phone Number"
+      }
+    ]
   }
 ]
 ```

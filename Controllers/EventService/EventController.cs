@@ -20,7 +20,7 @@ namespace LetsHang.Controller
       _userContext = userContext;
 
 
-      if (_context.Events.Count() < 2) 
+      if (_context.Events.Count() == 0) 
       {
         _context.Events.Add( new Event
         {
@@ -38,6 +38,15 @@ namespace LetsHang.Controller
           EventTime = "Later Tonight",
           EventLocation = "My House",
           Creator = "Garrett03",
+          CreatedAt = DateTime.Now
+        });
+        _context.Events.Add( new Event
+        {
+          Title = "Watch christmas movies and get krunk",
+          Description = "Home Alone and Home Alone 2!",
+          EventTime = "Tonight",
+          EventLocation = "Hollywood",
+          Creator = "Jacqui03",
           CreatedAt = DateTime.Now
         });
 
@@ -114,7 +123,7 @@ namespace LetsHang.Controller
     //====================================
     //Get all events a user has been invited to
     [HttpGet("user/allInvited")]
-    public ActionResult<List<Event>> AllUserEventsInvitedTo([FromQuery] string ApiKey)
+    public ActionResult<List<EventAndInvited>> AllUserEventsInvitedTo([FromQuery] string ApiKey)
     {
       var user = _userContext.Users
                               .Where( u => u.ApiKey == ApiKey)
@@ -134,7 +143,51 @@ namespace LetsHang.Controller
         events.Add(newEvent);
       }
 
-      return events;
+      var allEventsAndInvited = new List<EventAndInvited>();
+      foreach( var newEvent in events )
+      {
+        var allInvited = _context.Invites
+                                  .Where( i => i.EventId == newEvent.EventId && i.InviteStatus == (InviteStatus)1)
+                                  .ToList()
+                                  .Select( i => {
+                                    var user = _userContext.Users.Find(i.FriendId);
+                                    return new PartialUser
+                                    {
+                                      UserId = user.UserId,
+                                      UserName = user.UserName,
+                                      Name = user.Name,
+                                      Email = user.Email,
+                                      PhoneNumber = user.PhoneNumber
+                                    };
+                                  })
+                                  .ToList();
+
+        var allAccepted = _context.Invites
+                                  .Where( i => i.EventId == newEvent.EventId && i.InviteStatus == (InviteStatus)2)
+                                  .ToList()
+                                  .Select( i => {
+                                    var user = _userContext.Users.Find(i.FriendId);
+                                    return new PartialUser
+                                    {
+                                      UserId = user.UserId,
+                                      UserName = user.UserName,
+                                      Name = user.Name,
+                                      Email = user.Email,
+                                      PhoneNumber = user.PhoneNumber
+                                    };
+                                  })
+                                  .ToList();
+
+        var eventAndInvited = new EventAndInvited 
+        {
+          Event = newEvent,
+          Invited = allInvited,
+          Accepted = allAccepted
+        };
+        allEventsAndInvited.Add(eventAndInvited);
+      }
+
+      return allEventsAndInvited;
     }
 
     //====================================
