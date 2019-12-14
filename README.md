@@ -344,6 +344,30 @@ POST https://localhost:5001/api/v1/event/{UserId}
   }
 ```
 
+Invite Friends
+--------------
+
+**Request**
+```
+POST https://localhost:5001/api/v1/event/addinvites
+```
+
+**Query Params**
+```
+ApiKey=<User_Api_Key>
+```
+
+**Request Body**
+```
+{
+  Invited: <List<long>>[1,2,3,4...]
+}
+```
+
+**Response Status**
+```
+Status Code: 200 Ok
+```
 Delete Event
 ------------
 
