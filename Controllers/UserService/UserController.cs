@@ -22,28 +22,37 @@ namespace LetsHang.Controller
       {
         _context.Users.Add( new User {
           UserName = "Flachman03",
-          Name = "Ryan",
+          Name = "Ryan Flachman",
           Email = "user@email.com",
-          PhoneNumber = "444444444",
+          PhoneNumber = "1111111111",
           Password = "password",
           ApiKey = "A93reRTUJHsCuQSHRAL3GxqOJyDmQpCgps102ciuabcA"
         });
         _context.Users.Add( new User
         {
           UserName = "Garrett03",
-          Name = "Garrett",
+          Name = "Garrett Flachman",
           Email = "user1@email.com",
-          PhoneNumber = "444444444",
+          PhoneNumber = "2222222222",
           Password = "password",
           ApiKey = "B93reRTUJHsCuQSHRCL3GxqOJyDmQpCgps102ciuabc"
         });
         _context.Users.Add( new User{
           UserName = "Jacqui03",
-          Name = "Jacqui",
+          Name = "Jacqui Long",
           Email = "user2@email.com",
-          PhoneNumber = "444444444",
+          PhoneNumber = "3333333333",
           Password = "password",
           ApiKey = "C93reRTUJHsCuQSHRXL3GxqOJyDmQpCgps102ciuabc"
+        });
+        _context.Users.Add( new User
+        {
+          UserName = "Steve03",
+          Name = "Steve Rumizen",
+          Email = "user3@email.com",
+          PhoneNumber = "5555555555",
+          Password = "password",
+          ApiKey = "D93reRTUJHsCuQSHRXL3GxqOJyDmQpCgps102ciuabc"
         });
         _context.SaveChanges();
 
@@ -52,20 +61,26 @@ namespace LetsHang.Controller
       {
         _context.Friends.Add( new Friend
         {
-          UserId = 10,
-          FriendId = 11,
+          UserId = 16,
+          FriendId = 17,
           RequestStatus = (RequestStatus)2
         });
         _context.Friends.Add( new Friend
         {
-          UserId = 10,
-          FriendId = 12,
+          UserId = 16,
+          FriendId = 18,
           RequestStatus = (RequestStatus)1
         });
         _context.Friends.Add( new Friend{
-          UserId = 10,
-          FriendId = 13,
+          UserId = 16,
+          FriendId = 19,
           RequestStatus = (RequestStatus)1
+        });
+        _context.Friends.Add( new Friend
+        {
+          UserId = 16,
+          FriendId = 20,
+          RequestStatus = (RequestStatus)2
         });
         _context.SaveChanges();
       }
