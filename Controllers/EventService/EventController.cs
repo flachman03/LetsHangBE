@@ -343,6 +343,30 @@ namespace LetsHang.Controller
 
     //====================================
     //====================================
+    //Update a users created event given their ApiKey
+    [HttpPatch("{EventId}/{UserId}")]
+    public ActionResult<Event> UpdateEvent(long EventId, long UserId, [FromQuery] string ApiKey, [FromBody] Event newEvent)
+    {
+      var user = _userContext.Users.Find(UserId);
+
+      if (user.ApiKey != ApiKey)
+        return BadRequest();
+
+      var userEvent = _context.Events.Find(EventId);
+
+      userEvent.Title = newEvent.Title;
+      userEvent.Description = newEvent.Description;
+      userEvent.EventTime = newEvent.EventTime;
+      userEvent.EventLocation = newEvent.EventLocation;
+
+      _context.Events.Update(userEvent);
+      _context.SaveChanges();
+
+      return userEvent;
+    }
+
+    //====================================
+    //====================================
     //Delete an Event from the EventDb
     [HttpDelete]
     public ActionResult DeleteEvent([FromQuery] string ApiKey)
