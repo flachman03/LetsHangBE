@@ -368,6 +368,44 @@ ApiKey=<User_Api_Key>
 ```
 Status Code: 200 Ok
 ```
+
+Update Event
+------------
+
+**Request**
+```
+PATCH https://localhost:5001/api/v1/event/{EventId}/{UserId}
+EventId: EventId of the Event to be updated.
+UserId: UserId of the User who created the event.
+```
+
+**Query Params**
+```
+ApiKey=<User_Api_Key>
+```
+
+**Request Body**
+```
+{
+  Title: <string>"Updated Title",
+  Description: <string>"Updated Description",
+  EventTime: <string>"Updated Event Time",
+  EventLocation: <string>"Updated Event Location"
+}
+```
+
+**Response Body**
+```
+{
+  EventId: <long>EventId,
+  Title: <string>"Title",
+  Description: <string>"Description",
+  EventTime: <string>"Event Time",
+  EventLocation: <string>"Event Location",
+  Creator: <string>"Creator UserName",
+  CreatedAt: <DateTime>"DateTime event created"
+}
+```
 Delete Event
 ------------
 
