@@ -57,7 +57,7 @@ namespace LetsHang.Controller
         {
           UserId = 16,
           FriendId = 17,
-          EventId = 6,
+          EventId = 9,
           InviteStatus = (InviteStatus)1
         });
         _context.Invites.Add( new Invited
@@ -71,12 +71,6 @@ namespace LetsHang.Controller
         {
           UserId = 16,
           FriendId = 19,
-          EventId = 9,
-          InviteStatus = (InviteStatus)2
-        });
-        _context.Invites.Add( new Invited{
-          UserId = 16,
-          FriendId = 20,
           EventId = 9,
           InviteStatus = (InviteStatus)2
         });
@@ -125,34 +119,30 @@ namespace LetsHang.Controller
                                 .Where( e => e.Creator == user.UserName)
                                 .FirstOrDefault();
 
-      var invited = _context.Invites
-                            .Where( i => i.EventId == userEvent.EventId && i.InviteStatus == (InviteStatus)1)
-                            .ToList()
-                            .Select( i => _userContext.Users.Find(i.UserId))
-                            .Select( u => new PartialUser
-                            {
-                              UserId = u.UserId,
-                              UserName = u.UserName,
-                              Name = u.Name,
-                              Email = u.Email,
-                              PhoneNumber = u.PhoneNumber
-                            })
-                            .ToList();
-
-      var accepted = _context.Invites
-                            .Where( i => i.EventId == userEvent.EventId && i.InviteStatus == (InviteStatus)2)
-                            .ToList()
-                            .Select( i => _userContext.Users.Find(i.UserId))
-                            .Select( u => new PartialUser
-                            {
-                              UserId = u.UserId,
-                              UserName = u.UserName,
-                              Name = u.Name,
-                              Email = u.Email,
-                              PhoneNumber = u.PhoneNumber
-                            })
-                            .ToList();
-
+      var invited = new List<PartialUser>();
+      var accepted = new List<PartialUser>();
+      
+      _context.Invites
+              .Where( i => i.EventId == userEvent.EventId)
+              .ToList()
+              .Select( i => {
+              var user = _userContext.Users.Find(i.FriendId);
+              var partialUser =  new PartialUser
+                {
+                UserId = user.UserId,
+                UserName = user.UserName,
+                Name = user.Name,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber
+                };
+              if (i.InviteStatus == (InviteStatus)1)
+                invited.Add(partialUser);
+              else
+                accepted.Add(partialUser);
+              return partialUser;
+              })
+              .ToList();
+        
       var eventAndInvited = new EventAndInvited
       {
         Event = userEvent,
@@ -161,7 +151,6 @@ namespace LetsHang.Controller
       };
 
       return eventAndInvited;
-      
     }
 
     //====================================
