@@ -20,7 +20,8 @@ namespace LetsHang
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>()
+                              .UseSetting("https_port", "443");
                 });
     }
 }
