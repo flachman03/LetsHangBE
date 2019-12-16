@@ -50,7 +50,9 @@ namespace LetsHang.Controller
           CreatedAt = DateTime.Now
         });
         _context.SaveChanges();
-
+        }
+        if(_context.Invites.Count() == 0)
+        {
         _context.Invites.Add( new Invited
         {
           UserId = 16,
@@ -77,6 +79,20 @@ namespace LetsHang.Controller
           FriendId = 20,
           EventId = 9,
           InviteStatus = (InviteStatus)2
+        });
+        _context.Invites.Add( new Invited
+        {
+          UserId = 17,
+          FriendId = 16,
+          EventId = 10,
+          InviteStatus = (InviteStatus)1
+        });
+        _context.Invites.Add( new Invited
+        {
+          UserId = 18,
+          FriendId = 16,
+          EventId = 11,
+          InviteStatus = (InviteStatus)1
         });
 
         _context.SaveChanges();
