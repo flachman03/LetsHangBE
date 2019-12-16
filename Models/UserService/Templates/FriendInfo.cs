@@ -4,6 +4,8 @@ namespace Templates
 {
   public class FriendInfo
   {
+    public long UserId { get; set; }
+    
     [Required]
     public string UserName { get; set; }
 

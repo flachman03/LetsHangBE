@@ -138,6 +138,7 @@ namespace LetsHang.Controller
       var friendsInfo = friends.Select( f => {
         return new FriendInfo
         {
+          UserId = f.UserId,
           UserName = f.UserName,
           Name = f.Name,
           Email = f.Email,
