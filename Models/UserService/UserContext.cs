@@ -1,6 +1,5 @@
+using Initializers;
 using Microsoft.EntityFrameworkCore;
-using LetsHang.Models;
-
 namespace LetsHang.Models
 {
   public class UserContext : DbContext
@@ -13,5 +12,11 @@ namespace LetsHang.Models
     public DbSet<User> Users { get; set; }
 
     public DbSet<Friend> Friends { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+      modelBuilder.ApplyConfiguration(new UserConfiguration());
+      modelBuilder.ApplyConfiguration(new FriendConfiguration());
+    }
   }
 }

@@ -2,15 +2,17 @@
 using LetsHang.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace LetsHang.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20191217210015_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,51 +38,7 @@ namespace LetsHang.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Friend");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            FriendId = 2L,
-                            RequestStatus = 2,
-                            UserId = 1L
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            FriendId = 3L,
-                            RequestStatus = 2,
-                            UserId = 1L
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            FriendId = 4L,
-                            RequestStatus = 2,
-                            UserId = 1L
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            FriendId = 3L,
-                            RequestStatus = 2,
-                            UserId = 2L
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            FriendId = 3L,
-                            RequestStatus = 2,
-                            UserId = 2L
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            FriendId = 4L,
-                            RequestStatus = 2,
-                            UserId = 3L
-                        });
+                    b.ToTable("Friends");
                 });
 
             modelBuilder.Entity("LetsHang.Models.User", b =>
