@@ -42,3 +42,4 @@
 /Users/ryanflachmam/c-sharp/LetsHang/obj/Debug/netcoreapp3.0/LetsHang.dll
 /Users/ryanflachmam/c-sharp/LetsHang/obj/Debug/netcoreapp3.0/LetsHang.pdb
 /Users/ryanflachmam/c-sharp/LetsHang/bin/Debug/netcoreapp3.0/Microsoft.EntityFrameworkCore.Design.dll
+/Users/ryanflachmam/c-sharp/LetsHang/bin/Debug/netcoreapp3.0/Microsoft.AspNetCore.Authentication.Google.dll

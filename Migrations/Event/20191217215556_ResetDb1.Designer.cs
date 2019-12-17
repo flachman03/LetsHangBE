@@ -3,15 +3,17 @@ using System;
 using LetsHang.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace LetsHang.Migrations.Event
 {
     [DbContext(typeof(EventContext))]
-    partial class EventContextModelSnapshot : ModelSnapshot
+    [Migration("20191217215556_ResetDb1")]
+    partial class ResetDb1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +54,7 @@ namespace LetsHang.Migrations.Event
                         new
                         {
                             EventId = 1L,
-                            CreatedAt = new DateTime(2019, 12, 17, 14, 57, 49, 653, DateTimeKind.Local).AddTicks(7870),
+                            CreatedAt = new DateTime(2019, 12, 17, 14, 55, 56, 519, DateTimeKind.Local).AddTicks(6750),
                             Creator = "Flachman03",
                             Description = "Drink our faces off.",
                             EventLocation = "The Pub on Penn",
@@ -62,7 +64,7 @@ namespace LetsHang.Migrations.Event
                         new
                         {
                             EventId = 2L,
-                            CreatedAt = new DateTime(2019, 12, 17, 14, 57, 49, 658, DateTimeKind.Local).AddTicks(9170),
+                            CreatedAt = new DateTime(2019, 12, 17, 14, 55, 56, 524, DateTimeKind.Local).AddTicks(9610),
                             Creator = "Garrett03",
                             Description = "Watch tv and chill",
                             EventLocation = "My House",
@@ -72,7 +74,7 @@ namespace LetsHang.Migrations.Event
                         new
                         {
                             EventId = 3L,
-                            CreatedAt = new DateTime(2019, 12, 17, 14, 57, 49, 658, DateTimeKind.Local).AddTicks(9210),
+                            CreatedAt = new DateTime(2019, 12, 17, 14, 55, 56, 524, DateTimeKind.Local).AddTicks(9650),
                             Creator = "Jacqui03",
                             Description = "Home Alone and Home Alone 2!",
                             EventLocation = "Hollywood",
@@ -102,49 +104,7 @@ namespace LetsHang.Migrations.Event
 
                     b.HasKey("Id");
 
-                    b.ToTable("Invited");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            EventId = 1L,
-                            FriendId = 2L,
-                            InviteStatus = 1,
-                            UserId = 1L
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            EventId = 1L,
-                            FriendId = 3L,
-                            InviteStatus = 1,
-                            UserId = 1L
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            EventId = 1L,
-                            FriendId = 4L,
-                            InviteStatus = 2,
-                            UserId = 1L
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            EventId = 2L,
-                            FriendId = 1L,
-                            InviteStatus = 1,
-                            UserId = 2L
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            EventId = 3L,
-                            FriendId = 1L,
-                            InviteStatus = 1,
-                            UserId = 3L
-                        });
+                    b.ToTable("Invites");
                 });
 #pragma warning restore 612, 618
         }

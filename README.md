@@ -155,6 +155,7 @@ ApiKey=<user_api_key>
 ```
 [
   {
+    UserId: <long>UserId
     UserName: <string>"Flachman03",
     Name: <string>"Ryan Flachman",
     Email: <string>"user@email.com",

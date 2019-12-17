@@ -1,3 +1,4 @@
+using Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace LetsHang.Models
@@ -11,5 +12,11 @@ namespace LetsHang.Models
 
     public DbSet<Event> Events { get; set; }
     public DbSet<Invited> Invites { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+      modelBuilder.ApplyConfiguration( new EventConfiguration());
+      modelBuilder.ApplyConfiguration( new InvitedConfiguration());
+    }
   }
 }
