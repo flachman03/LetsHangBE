@@ -2,6 +2,18 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.0": {
+      "Microsoft.AspNetCore.Authentication.Google/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.0/Microsoft.AspNetCore.Authentication.Google.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/Microsoft.AspNetCore.Authentication.Google.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "Microsoft.Bcl.AsyncInterfaces/1.1.0": {
         "type": "package",
         "compile": {
@@ -1510,6 +1522,19 @@
     }
   },
   "libraries": {
+    "Microsoft.AspNetCore.Authentication.Google/3.0.0": {
+      "sha512": "u35Ht7mTTGiEbrU6MuzxnNjuLmkSB9+oOYIoDmS2w7tgU9w8JZVnpE08eJl3+hP8SShrVuKc4Eoup75bPs29cQ==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.authentication.google/3.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netcoreapp3.0/Microsoft.AspNetCore.Authentication.Google.dll",
+        "lib/netcoreapp3.0/Microsoft.AspNetCore.Authentication.Google.xml",
+        "microsoft.aspnetcore.authentication.google.3.0.0.nupkg.sha512",
+        "microsoft.aspnetcore.authentication.google.nuspec"
+      ]
+    },
     "Microsoft.Bcl.AsyncInterfaces/1.1.0": {
       "sha512": "1Am6l4Vpn3/K32daEqZI+FFr96OlZkgwK2LcT3pZ2zWubR5zTPW3/FkO1Rat9kb7oQOa4rxgl9LJHc5tspCWfg==",
       "type": "package",
@@ -5378,6 +5403,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.0": [
+      "Microsoft.AspNetCore.Authentication.Google >= 3.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 3.1.0",
       "NpgSql.EntityFrameworkCore.PostgreSQL.Design >= 1.1.1",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 3.1.0"
@@ -5418,6 +5444,10 @@
     "frameworks": {
       "netcoreapp3.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.Google": {
+            "target": "Package",
+            "version": "[3.0.0, )"
+          },
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
